@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
 import Container from '../components/Container';
+import { Context as AuthContext } from '../context/AuthContext';
 
 const SigninScreen = ({ navigation }) => {
+  const { signin } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   return (
     <Container>
-      <Text h3>Signin</Text>
+      <Text h3 style={styles.title}>Login</Text>
       <Input
         label="E-mail"
         value={email}
@@ -24,10 +27,22 @@ const SigninScreen = ({ navigation }) => {
         autoCorrect={false}
         secureTextEntry
       />
-      <Button onPress={() => navigation.navigate('Signup')} title="Signin" />
+      <Button title="Send" onPress={() => signin(email, password)} />
+      <TouchableOpacity style={styles.loginLink} onPress={() => navigation.navigate('Signup')}>
+        <Text>Do not have an account? Register now!</Text>
+      </TouchableOpacity>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    marginBottom: 20,
+  },
+  loginLink: {
+    marginTop: 20,
+  },
+});
 
 SigninScreen.navigationOptions = () => ({
   headerShown: false,

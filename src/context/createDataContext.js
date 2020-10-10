@@ -7,7 +7,7 @@ export default (reducer, actions, initialValue) => {
     const [state, dispatch] = useReducer(reducer, initialValue);
 
     const boundActions = Object.entries(actions).reduce((updatedActions, [name, action]) => {
-      const updatedAction = (...args) => dispatch(action(args));
+      const updatedAction = (...args) => dispatch(action(...args));
       return { ...updatedActions, [name]: updatedAction };
     }, {});
 

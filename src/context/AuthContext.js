@@ -1,4 +1,5 @@
 import createDataContext from './createDataContext';
+import trackerApi from '../api/tracker';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -7,8 +8,20 @@ const reducer = (state, action) => {
   }
 };
 
-const signin = () => {};
-const signup = () => {};
+const signin = async (email, password) => {
+  try {
+    const response = await trackerApi.post('/signin', { email, password });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+const signup = async (email, password) => {
+  try {
+    await trackerApi.post('/signup', { email, password });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 const signout = () => {};
 
 const actions = { signin, signup, signout };
