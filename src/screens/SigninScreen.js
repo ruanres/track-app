@@ -3,9 +3,10 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
 import Container from '../components/Container';
 import { Context as AuthContext } from '../context/AuthContext';
+import Error from '../components/Error';
 
 const SigninScreen = ({ navigation }) => {
-  const { signin } = useContext(AuthContext);
+  const { state, signin } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,6 +28,7 @@ const SigninScreen = ({ navigation }) => {
         autoCorrect={false}
         secureTextEntry
       />
+      <Error message={state.errorMessage} />
       <Button title="Send" onPress={() => signin(email, password)} />
       <TouchableOpacity style={styles.loginLink} onPress={() => navigation.navigate('Signup')}>
         <Text>Do not have an account? Register now!</Text>

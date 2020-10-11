@@ -3,6 +3,7 @@ import { Text, Input, Button } from 'react-native-elements';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import Container from '../components/Container';
 import { Context as AuthContext } from '../context/AuthContext';
+import Error from '../components/Error';
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ const SignupScreen = ({ navigation }) => {
         autoCorrect={false}
         secureTextEntry
       />
+      <Error message={state.errorMessage} />
       <Button title="Send" onPress={() => signup(email, password)} />
       <TouchableOpacity style={styles.signupLink} onPress={() => navigation.navigate('Signin')}>
         <Text>Already have an account? Then login!</Text>
@@ -41,6 +43,7 @@ const styles = StyleSheet.create({
   },
   signupLink: {
     marginTop: 20,
+    fontSize: 15,
   },
 });
 
