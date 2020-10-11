@@ -6,10 +6,10 @@ export default (reducer, actions, initialValue) => {
   const Provider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialValue);
 
-    const boundActions = Object.entries(actions).reduce((updatedActions, [name, action]) => {
-      const updatedAction = (...args) => dispatch(action(...args));
-      return { ...updatedActions, [name]: updatedAction };
-    }, {});
+    const boundActions = Object.entries(actions)
+      .reduce((updatedActions, [name, action]) => (
+        { ...updatedActions, [name]: action(dispatch) }
+      ), {});
 
     return (
       <Context.Provider value={{ state, ...boundActions }}>

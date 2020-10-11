@@ -1,30 +1,34 @@
 import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker';
 
+const ADD_ERROR = 'ADD_ERROR';
 const reducer = (state, action) => {
   switch (action.type) {
+    case ADD_ERROR:
+      return { ...state, errorMessage: action.payload };
     default:
       return state;
   }
 };
 
-const signin = async (email, password) => {
+const signin = (dispatch) => async (email, password) => {
   try {
-    const response = await trackerApi.post('/signin', { email, password });
+    await trackerApi.post('/signin', { email, password });
   } catch (error) {
-    console.error(error.message);
+    dispatch({ type: ADD_ERROR, payload: 'Something went wrong with sign in' });
   }
 };
-const signup = async (email, password) => {
+const signup = (dispatch) => async (email, password) => {
   try {
     await trackerApi.post('/signup', { email, password });
   } catch (error) {
-    console.error(error.message);
+    dispatch({ type: ADD_ERROR, payload: 'Something went wrong with sign up' });
   }
 };
+
 const signout = () => {};
 
 const actions = { signin, signup, signout };
-const initialState = { isSignedIn: false };
+const initialState = { isSignedIn: false, errorMessage: '' };
 
 export const { Context, Provider } = createDataContext(reducer, actions, initialState);
