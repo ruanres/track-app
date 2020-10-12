@@ -30,8 +30,8 @@ const SignupScreen = ({ navigation }) => {
       />
       <Error message={state.errorMessage} />
       <Button title="Send" onPress={() => signup(email, password)} />
-      <TouchableOpacity style={styles.signupLink} onPress={() => navigation.navigate('Signin')}>
-        <Text>Already have an account? Then login!</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
+        <Text style={styles.link}>Already have an account? Sign in instead!</Text>
       </TouchableOpacity>
     </Container>
   );
@@ -41,9 +41,10 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 20,
   },
-  signupLink: {
+  link: {
     marginTop: 20,
     fontSize: 15,
+    color: 'blue',
   },
 });
 
