@@ -1,14 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import Container from '../components/Container';
 import { Context as AuthContext } from '../context/AuthContext';
-import Error from '../components/Error';
+import AuthForm from '../components/AuthForm';
 
 const SigninScreen = ({ navigation }) => {
   const { state, signin } = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   useEffect(() => {
     if (state.isSignedIn) {
@@ -18,24 +16,12 @@ const SigninScreen = ({ navigation }) => {
 
   return (
     <Container>
-      <Text h3 style={styles.title}>Login</Text>
-      <Input
-        label="E-mail"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        autoCorrect={false}
+      <AuthForm
+        headerText="Sign in for Tracker"
+        errorMessage={state.errorMessage}
+        submitButtonText="Sign In"
+        onSubmit={({ email, password }) => signin(email, password)}
       />
-      <Input
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry
-      />
-      <Error message={state.errorMessage} />
-      <Button title="Send" onPress={() => signin(email, password)} />
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.link}>Do not have an account? Register now!</Text>
       </TouchableOpacity>

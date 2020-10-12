@@ -1,35 +1,21 @@
-import React, { useState, useContext } from 'react';
-import { Text, Input, Button } from 'react-native-elements';
+import React, { useContext } from 'react';
+import { Text } from 'react-native-elements';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import Container from '../components/Container';
 import { Context as AuthContext } from '../context/AuthContext';
-import Error from '../components/Error';
+import AuthForm from '../components/AuthForm';
 
 const SignupScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const { state, signup } = useContext(AuthContext);
 
   return (
     <Container>
-      <Text h3 style={styles.title}>Register</Text>
-      <Input
-        label="E-mail"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        autoCorrect={false}
+      <AuthForm
+        headerText="Sign up for Tracker"
+        errorMessage={state.errorMessage}
+        submitButtonText="Sign Up"
+        onSubmit={({ email, password }) => signup(email, password)}
       />
-      <Input
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry
-      />
-      <Error message={state.errorMessage} />
-      <Button title="Send" onPress={() => signup(email, password)} />
       <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
         <Text style={styles.link}>Already have an account? Sign in instead!</Text>
       </TouchableOpacity>
