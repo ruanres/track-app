@@ -33,6 +33,16 @@ const saveToken = async (token) => {
   await AsyncStorage.setItem('token', token);
 };
 
+const tryLocalSignin = (dispatch) => async () => {
+  const token = await AsyncStorage.getItem('token');
+  if (token) {
+    dispatch({ type: SIGNIN, payload: token });
+    navigate('TrackList');
+  } else {
+    navigate('Signin');
+  }
+};
+
 const signin = (dispatch) => async (email, password) => {
   try {
     const response = await trackerApi.post('/signin', { email, password });
@@ -64,7 +74,7 @@ const clearErrorMessage = (dispatch) => () => {
 };
 
 const actions = {
-  signin, signup, signout, clearErrorMessage,
+  signin, signup, signout, clearErrorMessage, tryLocalSignin,
 };
 
 export const { Context, Provider } = createDataContext(reducer, actions, initialState);
